@@ -1,0 +1,39 @@
+require:
+  - beet.contrib.inline_function
+  - beet.contrib.inline_function_tag
+  - beet.contrib.template_context
+  - beet.contrib.dundervar
+pipeline:
+  - beet.contrib.render
+  - beet.contrib.hangman
+  - beet.contrib.scoreboard
+  - beet.contrib.yellow_shulker_box
+  - plugins.lantern_load
+  - plugins.render_load
+  - plugins.function_headers
+
+data_pack:
+  name: "{{ctx.project_name}} v{{ctx.project_version}}"
+  load:
+    - .
+
+meta:
+  render:
+    data_pack:
+      functions:
+        - '*'
+  hangman:
+    match:
+      - '*'
+
+  lantern_load:
+    namespace: 'rx.ec'
+    url: https://github.com/rx-modules/EnderChest+/releases
+    dependencies:
+      - name: PlayerDB
+        namespace: rx.pdb
+        url: https://github.com/rx-modules/PlayerDB/releases
+        version: '1.2'
+    colors:
+      - '#aa00ff'
+      - '#ff00e6'
