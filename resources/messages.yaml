@@ -1,43 +1,50 @@
 messages:
   missing:
-    - text: "Warning "
+    - ""
+    - storage: rx:info
+      nbt: "{{storage_shorthand}}.pretty_name"
+      interpret: true
+    - text: " Warning: "
       color: red
       clickEvent:
-        - action: open_url
+          action: open_url
           value: "{{url}}"
       hoverEvent:
-        - action: show_text
+          action: show_text
           value: Click to open the URL
-      extras:
+      extra:
         - text: ""
           color: gray
         - text: "{{name}}"
           color: gold
-        - text: " is not installed."
-        - text: Please grab the latest release by clicking this text. 
-        - text: Once loaded, run `/reload`!
+        - text: " is not installed. "
+        - text: "Please grab the latest release by clicking this text. "
+        - text: "Once loaded, run `/reload`! "
 
   wrong_version:
-    - text: Warning
+    - ""
+    - storage: rx:info
+      nbt: "{{storage_shorthand}}.pretty_name"
+      interpret: true
+    - text: " Warning: "
       color: red
       clickEvent:
-        - action: open_url
+          action: open_url
           value: URL
       hoverEvent:
-        - action: show_text
+          action: show_text
           value: Click to open the URL
-      extras:
+      extra:
         - text: ""
           color: gray
 
         - text: "{{name}}"
           color: gold
-        - text: "should be "
+        - text: " should be "
         - text: "{{'v' + version}}"
           color: gold
         - text: " but is currently "
-        - storage: rx:info
-          nbt: "{{ctx.meta.lantern_load.shorthand + '.pretty_version'}}"
+        - text: "v{{major}}.{{minor}}.{{patch}}.\n"
           color: gold
         - text: "\n"
 
@@ -55,8 +62,8 @@ messages:
         - text: "  c) Ensure you only have one version loaded\n"
         - text: "  d) Contact rx97 through discord (click)\n"
           clickEvent:
-            - action: open_url
+              action: open_url
               value: https://discord.gg/u5Xfxw8y9n
           hoverEvent:
-            - action: show_text
+              action: show_text
               value: Click to open URL

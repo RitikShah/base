@@ -3,14 +3,13 @@ require:
   - beet.contrib.inline_function_tag
   - beet.contrib.template_context
   - beet.contrib.dundervar
+
 pipeline:
-  - beet.contrib.render
-  - beet.contrib.hangman
-  - beet.contrib.scoreboard
-  - beet.contrib.yellow_shulker_box
-  - plugins.lantern_load
-  - plugins.render_load
-  - plugins.function_headers
+  - base.plugins.beet_default
+  - base.plugins.function_headers
+  - base.plugins.lantern_load
+  - base.plugins.render_load
+
 
 data_pack:
   name: "{{ctx.project_name}} v{{ctx.project_version}}"
@@ -25,3 +24,4 @@ meta:
   hangman:
     match:
       - '*'
+ 
