@@ -43,12 +43,13 @@ def beet_default(ctx: Context):
         }
     )
 
-    ctx.data[f"{ctx.meta['namespace']}:global"] = Advancement(
+    item = ctx.meta.get("advancements", {}).get("item", "minecraft:stone")
+    ctx.data[f"{ctx.project_id}:global"] = Advancement(
         {
             "display": {
-                "title": ctx.meta["pretty_name"],
+                "title": ctx.meta["globals"]["pretty_name"],
                 "description": ctx.project_description,
-                "icon": {"item": ctx.meta["global"]["item"]},
+                "icon": {"item": item},
                 "announce_to_chat": False,
                 "show_toast": False,
             },

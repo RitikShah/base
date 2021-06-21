@@ -1,33 +1,29 @@
-#!set namespace = ctx.meta['lantern_load']['namespace']
-#!set lantern_load = ctx.meta['lantern_load']
-
-#!set init = namespace + ":init"
-#!set tick = namespace + ":tick"
-#!set tellraw_header = '{"text":"", "color":"gray"}, {"nbt": "' + lantern_load['shorthand'] + '.pretty_name", "storage": "rx:info", "interpret": true}, " "'
-
-#!set major = ctx.project_version.split('.')[0]
-#!set minor = ctx.project_version.split('.')[1]
-#!set patch = ctx.project_version.split('.')[2]
+#!set config = ctx.meta['lantern_load']
 
 scoreboard objectives add rx.temp dummy
 
+# we use this throughout the project
 data modify storage rx:info ec.name set value {{ctx.project_name}}
-data modify storage rx:info ec.pretty_name set value '{{ctx.meta.pretty_name | tojson}}'
+data modify storage rx:info ec.pretty_name set value '{{ctx.meta.globals.pretty_name | tojson}}'
 
-{% for d in lantern_load.dependencies %}
-{%- set d_major = d['version'].split('.')[0] %}
-{%- set d_minor = d['version'].split('.')[1] %}
-execute if score {{d['namespace']}} load.status matches 1.. if score {{d['namespace']}} load.status matches {{d_major}} if score #{{d['namespace']}}.minor matches {{d_minor}}.. run scoreboard players set {{namespace}} load.status {{major}}
+# try to check for dependencies
+#  if we have no dependencies, then just set our major status
+{%- for dep in lantern_load.dependencies %}
+execute if score {{dep.id}} load.status matches {{dep.version.major}} if score #{{dep.id}}.minor matches {{dep.version.minor}}.. run scoreboard players set {{ctx.project_id}} load.status {{ctx.meta.version.major}}
+{%- else %}
+scoreboard players set {{ctx.project_id}} load.status {{ctx.meta.version.major}}
 {%- endfor %}
 
-execute if score {{namespace}} load.status matches 1.. run function {{init}}
-execute if score {{namespace}} load.status matches 1.. run tellraw @a[tag=rx.admin] [{{tellraw_header}}, {"storage": "rx:info", "nbt": "{{lantern_load.shorthand}}.version.major"}, ".", {"storage": "rx:info", "nbt": "{{lantern_load.shorthand}}.version.minor"}, ".", {"storage": "rx:info", "nbt": "{{lantern_load.shorthand}}.version.patch"}, " loaded"]
+# tellraw if loading was a success
+execute if score {{ctx.project_id}} load.status matches 1.. run function {{ctx.project_id}}:init
+execute if score {{ctx.project_id}} load.status matches 1.. run tellraw @a[tag=rx.admin] [{"text": "", "color": "gray"}, {{ctx.meta.globals.pretty_name | tojson}}, " v{{ctx.project_version}} loaded"]
 
-execute unless score {{namespace}} load.status matches 1.. run schedule clear {{tick}}
+# stop tick loop if loading failed
+execute unless score {{ctx.project_id}} load.status matches 1.. run schedule clear {{ctx.project_id}}:tick
 
-{%- for d in lantern_load.dependencies %}
-{%- set d_major = d['version'].split('.')[0] %}
-{%- set d_minor = d['version'].split('.')[1] %}
-execute unless score {{namespace}} load.status matches 1.. unless score {{d['namespace']}} load.status matches 1.. run tellraw @a {{d['missing']}}
-execute unless score {{namespace}} load.status matches 1.. if score {{d['namespace']}} load.status matches 1.. run tellraw @a {{d['wrong_version']}}
+# figure out what went wrong and tellraw to the user..
+#>  TODO: this could be a singular tellraw *potentially*
+{%- for dep in lantern_load.dependencies %}
+execute unless score {{ctx.project_id}} load.status matches 1.. unless score {{dep.id}} load.status matches 1.. run tellraw @a {{dep.missing}}
+execute unless score {{ctx.project_id}} load.status matches 1.. if score {{dep.id}} load.status matches 1.. run tellraw @a {{dep.wrong_version}}
 {%- endfor -%}

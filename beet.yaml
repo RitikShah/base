@@ -8,8 +8,8 @@ pipeline:
   - base.plugins.other.globals
   - base.plugins.lantern_load
   - base.plugins.advancements
-  - base.plugins.other.function_headers
   - beet.contrib.render
+  - base.plugins.other.function_headers
   - beet.contrib.hangman
   - beet.contrib.yellow_shulker_box
 

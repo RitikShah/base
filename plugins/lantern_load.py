@@ -13,7 +13,9 @@ from beet.core.file import File, TextFile
 from beet.core.utils import JsonDict
 from colour import Color
 from lectern import Document
+from collections import namedtuple
 
+SemVer = namedtuple('version', ('major', 'minor', 'patch'))
 
 def get_path(ctx: Context):
     return ctx.directory / "base"
@@ -51,7 +53,7 @@ def beet_default(ctx: Context):
     for dep in config.get("dependencies", []):
         parts = dep['id'].split()
         render_vars = {
-            "version": dep["version"],
+            "version": SemVer(*dep["version"].split('.')),
             "shorthand": parts[1] if len(parts) > 1 else parts[0],
         }
 
