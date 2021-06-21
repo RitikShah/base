@@ -5,10 +5,13 @@ require:
   - beet.contrib.dundervar
 
 pipeline:
-  - base.plugins.beet_default
-  - base.plugins.function_headers
+  - base.plugins.other.globals
   - base.plugins.lantern_load
-  - base.plugins.render_load
+  - base.plugins.advancements
+  - base.plugins.other.function_headers
+  - beet.contrib.render
+  - beet.contrib.hangman
+  - beet.contrib.yellow_shulker_box
 
 
 data_pack:

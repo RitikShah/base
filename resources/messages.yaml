@@ -2,7 +2,7 @@ messages:
   missing:
     - ""
     - storage: rx:info
-      nbt: "{{storage_shorthand}}.pretty_name"
+      nbt: "{{ctx.meta.shorthand}}.pretty_name"
       interpret: true
     - text: " Warning: "
       color: red
@@ -24,7 +24,7 @@ messages:
   wrong_version:
     - ""
     - storage: rx:info
-      nbt: "{{storage_shorthand}}.pretty_name"
+      nbt: "{{ctx.meta.shorthand}}.pretty_name"
       interpret: true
     - text: " Warning: "
       color: red
@@ -41,10 +41,11 @@ messages:
         - text: "{{name}}"
           color: gold
         - text: " should be "
-        - text: "{{'v' + version}}"
+        - text: "v{{version}}"
           color: gold
         - text: " but is currently "
-        - text: "v{{major}}.{{minor}}.{{patch}}.\n"
+        - storage: "rx:info\n"
+          nbt: "{{shorthand}}.pretty_version"
           color: gold
         - text: "\n"
 
