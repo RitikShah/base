@@ -41,7 +41,7 @@ messages:
         - text: "{{name}}"
           color: gold
         - text: " should be "
-        - text: "v{{version}}"
+        - text: "v{{version[0]}}.{{version[1]}}.{{version[2]}}"
           color: gold
         - text: " but is currently "
         - storage: "rx:info\n"
@@ -49,22 +49,24 @@ messages:
           color: gold
         - text: "\n"
 
-        - text: "Troubleshooting: \n"
-        - text: "  a) Make sure "
-        - text: "{{ctx.project_name}}"
-          color: gold
-        - text: " is on latest version"
-        - text: " (click)\n"
-        - text: "  a) Update "
-        - text: "{{name}}"
-          color: gold
-        - text: " to the latest version"
-        - text: " (click)\n"
-        - text: "  c) Ensure you only have one version loaded\n"
-        - text: "  d) Contact rx97 through discord (click)\n"
-          clickEvent:
-              action: open_url
-              value: https://discord.gg/u5Xfxw8y9n
-          hoverEvent:
-              action: show_text
-              value: Click to open URL
+  troubleshooting:
+    - ""
+    - text: "Troubleshooting: \n"
+    - text: "  a) Make sure "
+    - text: "{{ctx.project_name}}"
+      color: gold
+    - text: " is on latest version"
+    - text: " (click)\n"
+    - text: "  a) Update "
+    - text: "{{name}}"
+      color: gold
+    - text: " to the latest version"
+    - text: " (click)\n"
+    - text: "  c) Ensure you only have one version loaded\n"
+    - text: "  d) Contact rx97 through discord (click)\n"
+      clickEvent:
+          action: open_url
+          value: https://discord.gg/u5Xfxw8y9n
+      hoverEvent:
+          action: show_text
+          value: Click to open URL

@@ -1,1 +1,8 @@
+.DS_Store
+releases/
+.vscode/
+test/
+beet-dev.yaml
+.sublime-*
 pyrightconfig.json
+__pycache__
